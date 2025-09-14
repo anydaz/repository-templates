@@ -1,25 +1,28 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import { defineConfig } from "eslint/config";
+import js from "@eslint/js";
+import sonarjs from 'eslint-plugin-sonarjs';
+import typescriptParser from '@typescript-eslint/parser';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-  {
-    ignores: [
-      "node_modules/**",
-      ".next/**",
-      "out/**",
-      "build/**",
-      "next-env.d.ts",
-    ],
+export default defineConfig([
+	{ 
+    files: ['src/**/*.{js,jsx,ts,tsx}'],
+    plugins: { js, sonarjs }, 
+    extends: ["js/recommended"],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      parser: typescriptParser,
+    }
   },
-];
-
-export default eslintConfig;
+	{
+		rules: {
+      'no-console': 'error',
+      'react/react-in-jsx-scope': 'off',
+      'prefer-const': 'error',
+      'no-nested-ternary': 'error',
+      complexity: 'error',
+      'no-else-return': 'error',
+      'no-unused-vars': 'error',
+      'sonarjs/cognitive-complexity': ['error', 15],
+		},
+	},
+]);
