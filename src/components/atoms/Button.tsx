@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { tv, VariantProps } from 'tailwind-variants';
 
 const button = tv({
@@ -25,9 +25,8 @@ const button = tv({
   },
 });
 
-export interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof button> {
+export interface ButtonProps extends VariantProps<typeof button> {
+  className?: string;
   children: ReactNode;
 }
 
